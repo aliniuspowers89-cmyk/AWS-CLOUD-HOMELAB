@@ -1,0 +1,67 @@
+AWS ACTIVE DIRECTORY LAB
+
+note: There is the root user (Master/me) and IAM corresponding with roles.
+note: root user to create IAM's, Policies, and EC2 profile roles
+
+IAM (identity and access management)
+1. create IAM admin user
+- zer0-admin
+- password: Wingzer001#
+- permission policies 
+	-all x3 adminstratoraccess
+- enable multi factor access (MFA)
+
+
+2. AD HELPERS: create EC2 profiles role (amazon elastic compute cloud)
+:roles for AD helpers
+:secure, scalable virtual servers
+:remote connections set up
+:set up systems manager (ssm) fleet manager to RDP and SHH 
+to give permission to talk to the ssm api {system manager}
+	- EC2
+	- policy: amazonssmmangagedinstancecore
+			. allows ssm fleet manager to connect, execute commands, and manage the OS
+		  cloudwatchangentserverpolicy
+			. push OS-level performance metrics and security logs to coudwatch
+
+3. Network security group: implement vpc flow logs to monitor network traffic between my 6 subnets.
+:aws cloudwatch logs (read and write)
+	-Create roles, and (JSON) custom policy with the code.
+
+NOW FOR THE VPC AND SUBNETS
+
+CREATE VPC
+1.	
+	ZERO-LAB
+	AD-zero-Lab-VPC
+	IPv4 CIDR BLOCK MANUAL: 10.0.0.0/16
+2. CREATE SUBNETS 
+:6 subnets
+	1. Admin domain - private - 10.0.1.0/24
+	2. security - private - 10.0.2.0/24
+	3. Network monitoring - private - 10.0.3.0/24
+	4. AD helpers - private - 10.0.4.0/24
+	5. public zone A - public - 10.0.5.0/24
+	6. public zone b - public - 10.0.5.0/24
+- give the subnets internet and nat gatway for online access
+	. connect IGW (internet gateway to the vpc)
+	. NAT gate way - Elastic (static/non-changing) 3.226.162.215
+		- inside subnet5/zone
+		- note: it cost an hour so delete it when not in use to save myself money
+-CONFIGURE ROUTE TABLES 
+	I set subnet 1-4 private and 5-6 public
+		***make sure they're private and or public**
+		*** to manage private instances, I can deploy bastion host(Jump Box) in subnet 5 or us systems 
+			manager (ssm) Fleet manager to allow RDP/SSH directly from aws browser console 
+			without needing a public IP- enable SSM
+		**private: local / public: Gateway load balancer endpoint
+
+**forgot to configure the security groups**
+-For security reasons I will leave this part out. 
+	but each group security rules Match its use.
+	This info is personally saved for myself. ** 
+
+
+	
+
+
